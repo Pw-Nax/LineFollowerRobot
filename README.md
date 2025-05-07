@@ -28,7 +28,18 @@
 
 Whether you're tuning PID loops for milliseconds of gain or just starting with analog sensor arrays, this project is built to scale with your needs. Contributions are welcome!
 
+# 👥 Team
+Project developed by:
 
+## Cabero, Mauro. 
+
+## Fernandez, Sergio. 
+
+## Pérez, Julieta.
+
+## Richter, Juan.
+
+## Yomaha, Gastón.
 
 ![image](https://github.com/user-attachments/assets/a5fbad09-8d54-4fb5-b7a3-0f29d2f788ca)
 
