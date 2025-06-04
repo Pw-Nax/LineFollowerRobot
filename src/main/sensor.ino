@@ -1,7 +1,7 @@
 #include <QTRSensors.h>
 #define EMITTER_PIN 13
 QTRSensors qtr;
-const uint8_t SensorCount = 6;
+const uint8_t SensorCount = 5;
 uint16_t sensorValues[SensorCount];
 
 // Variables para el PID
@@ -20,12 +20,13 @@ int proporcional = 0;        // Error proporcional
 int integral = 0;            // Error integral
 int derivativo = 0;          // Error derivativo
 int last_prop = 0;           // Último error proporcional
-int Target = 2500;           // Valor objetivo para el PID
+int Target = 2020;           // Valor objetivo para el PID
 bool calibration = true;
 
 void QTR8A_init (){
   qtr.setTypeAnalog();
-  qtr.setSensorPins((const uint8_t[]){A1, A2, A3, A4, A5, A6}, SensorCount);
+  qtr.setSensorPins((const uint8_t[]){A2, A3, A4, A5, A6}, SensorCount);
+  qtr.setSamplesPerSensor(4);  // Filtrado leve
   qtr.setEmitterPin(EMITTER_PIN);
 }
 
@@ -33,7 +34,7 @@ void QTR8A_init (){
 void beginDrive (){
   if (calibration){
   Serial.println ("Calibrar");
-  for (int i = 0; i < 70; i++) {
+  for (int i = 0; i < 10; i++) {
     digitalWrite(EMITTER_PIN, HIGH); delay(20);
     qtr.calibrate();
     digitalWrite(EMITTER_PIN, LOW); delay(20);
@@ -85,7 +86,7 @@ void beginDrive (){
 
   Motor(velIzq, velDer);
 
-  Serial.print("Posicion: "); Serial.print(position);
+  /*Serial.print("Posicion: "); Serial.print(position);
   Serial.print(" | Prop: "); Serial.print(proporcional);
   Serial.print(" | Deriv: "); Serial.print(derivativo);
   Serial.print(" | Int: "); Serial.print(integral);
@@ -93,8 +94,8 @@ void beginDrive (){
   Serial.print(" | Vel L/R: "); Serial.print(velIzq); Serial.print("/"); Serial.println(velDer);
 
   delay(200);
-
-  for (uint8_t i = 0; i < SensorCount; i++) {
+*/
+ /* for (uint8_t i = 0; i < SensorCount; i++) {
         Serial.print("S");
         Serial.print(i + 1);
         Serial.print(": ");
@@ -103,5 +104,5 @@ void beginDrive (){
       }
       Serial.println();
       delay(200);
-
+*/
 }

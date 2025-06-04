@@ -11,7 +11,7 @@ bool ledState = false;
 
 void waitForButton() {
   for (int i = 0 ; i < 10 ; i++){
-     if (millis() - lastBlinkTime > 500) {
+     if (millis() - lastBlinkTime > 1) {
       ledState = !ledState;
       digitalWrite(LEDBLINK, ledState ? HIGH : LOW);
       lastBlinkTime = millis();

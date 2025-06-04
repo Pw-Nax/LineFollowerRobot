@@ -1,38 +1,47 @@
 #include <QTRSensors.h>
 
-#define PIN_BOTON 2  // Botón conectado a D2 con resistencia pull-down
-QTRSensors qtr;
+#define PIN_BOTON 2  // Botón en D2 con pull-down
+#define EMITTER_PIN LED_BUILTIN  // Cambiá si usás otro pin
 
-const uint8_t SensorCount = 6;
+QTRSensors qtr;
+const uint8_t SensorCount = 5;  // Solo 5 sensores (A2 a A6)
 uint16_t sensorValues[SensorCount];
 
 void setup() {
   Serial.begin(9600);
-  pinMode(PIN_BOTON, INPUT);  // Entrada normal (espera LOW o HIGH)
-
+  pinMode(PIN_BOTON, INPUT);  // Asumimos resistencia pull-down
   qtr.setTypeAnalog();
-  qtr.setSensorPins((const uint8_t[]){A1, A2, A3, A4, A5, A6}, SensorCount);
-  qtr.setEmitterPin(LED_BUILTIN);
+  qtr.setSensorPins((const uint8_t[]){A2, A3, A4, A5, A6}, SensorCount);
+  qtr.setEmitterPin(EMITTER_PIN);
 
   delay(500);
-  Serial.println("Esperando presionar el botón para iniciar lectura...");
+  Serial.println("Presioná el botón para iniciar prueba de Target...");
 }
 
 void loop() {
-  // Espera a que se presione el botón (HIGH = presionado)
-  if (digitalRead(PIN_BOTON) == LOW) {
-    Serial.println("¡Botón presionado! Iniciando lectura de sensores...");
+  if (digitalRead(PIN_BOTON) == HIGH) {
+    Serial.println("Leyendo sensores y posición...");
     delay(300);  // Anti-rebote
 
-    while (digitalRead(PIN_BOTON) == LOW) {
+    while (digitalRead(PIN_BOTON) == HIGH) {
+      digitalWrite(EMITTER_PIN, HIGH);  // Encender LEDs del QTR
+
       qtr.read(sensorValues);
+      uint16_t position = qtr.readLineBlack(sensorValues);
+
+      // Mostrar posición y valores
+      Serial.print("Position: ");
+      Serial.print(position);
+      Serial.print(" | ");
+
       for (uint8_t i = 0; i < SensorCount; i++) {
         Serial.print("S");
-        Serial.print(i + 1);
+        Serial.print(i + 2);  // A2=Sensor físico 2
         Serial.print(": ");
         Serial.print(sensorValues[i]);
         Serial.print("\t");
       }
+
       Serial.println();
       delay(200);
     }
