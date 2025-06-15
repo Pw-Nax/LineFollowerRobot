@@ -76,7 +76,6 @@ void Motorde(int value)
 //Accionamiento de motores
 void Motor(int left, int righ)
 {
-  digitalWrite(STBY,HIGH);
   Motoriz(left);
   Motorde(righ);
 }
@@ -86,7 +85,6 @@ void Motor(int left, int righ)
 //función de freno
 void freno(boolean left, boolean righ, int value)
 {
-  digitalWrite(STBY,HIGH);
   if ( left )
   {
     digitalWrite(BIN1,HIGH);
@@ -107,7 +105,6 @@ void setup()
 // Declaramos como salida los pines utilizados
   pinMode(LED   ,OUTPUT);
   pinMode(BIN2  ,OUTPUT);
-  pinMode(STBY  ,OUTPUT);
   pinMode(BIN1  ,OUTPUT);
   pinMode(PWMB  ,OUTPUT);
   pinMode(AIN1  ,OUTPUT);
